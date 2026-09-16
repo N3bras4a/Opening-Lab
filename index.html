@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0b0d12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Opening Lab" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <title>Opening Lab</title>
+  <style>
+    :root{
+      --bg:#0b0d12; --panel:#12151d; --panel2:#171b25; --text:#f4f6fb; --muted:#9198aa;
+      --accent:#7c5cff; --accent2:#28d7a1; --danger:#ff6577; --gold:#f4c866;
+      --light:#ead2aa; --dark:#9b6237; --sq:#9b6237; --sq2:#e7c895; --wood:#5b3824; --wood2:#3d2417;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;background:radial-gradient(circle at 50% -10%,#1a1632 0,#0b0d12 38%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;min-height:100%}
+    body{padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+    button{font:inherit}
+    .app{max-width:520px;margin:0 auto;min-height:100vh;padding:18px 16px 34px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 20px}
+    .brand{font-weight:800;letter-spacing:.3px}.brand span{color:var(--accent2)}
+    .pill{font-size:12px;color:var(--muted);background:#11141b;border:1px solid #242937;border-radius:99px;padding:8px 11px}
+    .hero{padding:22px;border:1px solid #242937;border-radius:26px;background:linear-gradient(145deg,rgba(124,92,255,.14),rgba(40,215,161,.06));box-shadow:0 18px 70px rgba(0,0,0,.28)}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent2);font-weight:700}
+    h1{font-size:34px;line-height:1.05;margin:8px 0 10px}.sub{color:var(--muted);font-size:15px;line-height:1.45}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+    .stat{background:var(--panel);border:1px solid #232837;border-radius:18px;padding:14px 10px;text-align:center}
+    .stat b{font-size:20px}.stat small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+    .sectionTitle{font-size:18px;font-weight:750;margin:24px 2px 12px}
+    .cards{display:grid;gap:12px}
+    .card{width:100%;text-align:left;border:1px solid #242937;background:linear-gradient(145deg,#141821,#10131a);color:var(--text);border-radius:22px;padding:17px;display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center}
+    .card:active{transform:scale(.99)}
+    .pieceBadge{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#1d2230;font-size:28px}
+    .card h3{margin:0 0 4px;font-size:17px}.card p{margin:0;color:var(--muted);font-size:13px}.chev{font-size:24px;color:#697086}
+    .progress{height:6px;background:#222736;border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:inherit}
+    .footerNote{color:#6f7688;font-size:12px;text-align:center;margin-top:22px}
+
+    .hidden{display:none!important}
+    .screenHeader{display:flex;align-items:center;gap:12px;margin-bottom:14px}.back{border:0;background:#161a24;color:white;width:40px;height:40px;border-radius:13px;font-size:22px}.screenHeader h2{margin:0;font-size:22px}.screenHeader p{margin:2px 0 0;color:var(--muted);font-size:12px}
+    .trainerPanel{background:var(--panel);border:1px solid #242937;border-radius:24px;padding:14px}
+    .trainerTop{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}.lineTag{font-size:12px;color:var(--muted)}.scoreBadge{font-size:12px;border-radius:999px;background:#191e29;padding:7px 10px;color:#cbd1de}
+    .boardWrap{display:grid;place-items:center;padding:6px}.board{width:min(92vw,470px);aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);border-radius:12px;overflow:hidden;border:7px solid var(--wood);outline:2px solid #2b180f;box-shadow:0 18px 60px rgba(0,0,0,.42),inset 0 0 0 1px rgba(255,255,255,.08);background:var(--wood2)}
+    .sq{position:relative;border:0;padding:0;font-size:clamp(31px,9vw,49px);display:grid;place-items:center;line-height:1;user-select:none}.sq.light{background:linear-gradient(135deg,#efd8ae,#e4c28c)}.sq.dark{background:linear-gradient(135deg,#aa7144,#92592f)}.sq.selected::after{content:"";position:absolute;inset:4px;border:4px solid #ffd166;border-radius:7px;box-shadow:0 0 0 1px rgba(74,42,21,.45)}.sq.target::before{content:"";width:18%;height:18%;border-radius:50%;background:rgba(65,37,20,.35);position:absolute}.sq.last::after{content:"";position:absolute;inset:0;background:rgba(255,215,105,.28);pointer-events:none}.piece{position:relative;z-index:2;font-family:"Times New Roman","DejaVu Serif",serif;font-variant-emoji:text;font-weight:400;transform:translateY(-1px)}.piece.white{color:#fff8e9;text-shadow:0 1px 0 #6b4a32,0 0 1px #4a2e1c,1px 0 #6b4a32,-1px 0 #6b4a32}.piece.black{color:#21150e;text-shadow:0 1px 0 rgba(255,255,255,.20),0 1px 2px rgba(0,0,0,.25)}
+    .coord{position:absolute;font-size:9px;font-weight:700;opacity:.55;z-index:3}.coord.file{right:4px;bottom:2px}.coord.rank{left:4px;top:2px}
+    .instruction{margin-top:14px;padding:14px 15px;border-radius:18px;background:#0f1218;border:1px solid #252a37}.instruction strong{display:block;font-size:15px;margin-bottom:5px}.instruction span{color:var(--muted);font-size:13px;line-height:1.4}
+    .feedback{min-height:46px;margin-top:10px;border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.35;display:flex;align-items:center}.feedback.good{background:rgba(40,215,161,.10);color:#8ff0d1;border:1px solid rgba(40,215,161,.28)}.feedback.bad{background:rgba(255,101,119,.10);color:#ff9aaa;border:1px solid rgba(255,101,119,.28)}.feedback.neutral{background:#0f1218;color:var(--muted);border:1px solid #252a37}
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.btn{border:1px solid #292f3f;background:#171b25;color:white;border-radius:16px;padding:13px;font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--accent),#5c4be8);border:0}.btn:disabled{opacity:.45}
+    .lesson{margin-top:12px;background:#10131a;border:1px solid #232837;border-radius:18px;padding:13px}.lesson b{font-size:13px}.lesson p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.4}
+    .complete{text-align:center;padding:22px 10px}.complete .big{font-size:48px}.complete h3{margin:10px 0 6px}.complete p{color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+<div class="app">
+  <section id="homeScreen">
+    <div class="topbar"><div class="brand">OPENING <span>LAB</span></div><div class="pill" id="streakPill">🔥 0 jour</div></div>
+    <div class="hero">
+      <div class="eyebrow">Répertoire personnel</div>
+      <h1>Apprends tes ouvertures<br>un coup à la fois.</h1>
+      <div class="sub">Une V1 pensée pour ton Londres et ta Caro‑Kann. Les progrès sont sauvegardés directement sur ton iPhone.</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="todayCount">0</b><small>coups aujourd’hui</small></div>
+      <div class="stat"><b id="accuracy">—</b><small>précision</small></div>
+      <div class="stat"><b id="mastery">0%</b><small>maîtrise</small></div>
+    </div>
+    <div class="sectionTitle">Tes ouvertures</div>
+    <div class="cards">
+      <button class="card" onclick="openTrainer('london')">
+        <div class="pieceBadge">♙</div><div><h3>Système de Londres</h3><p>Blancs • 3 lignes d’entraînement</p><div class="progress"><i id="londonProgress" style="width:0%"></i></div></div><div class="chev">›</div>
+      </button>
+      <button class="card" onclick="openTrainer('caro')">
+        <div class="pieceBadge">♟</div><div><h3>Caro‑Kann</h3><p>Noirs • Avance, Classique, Échange</p><div class="progress"><i id="caroProgress" style="width:0%"></i></div></div><div class="chev">›</div>
+      </button>
+    </div>
+    <div class="footerNote">V1 • entraînement de lignes • 100 % local</div>
+  </section>
+
+  <section id="trainerScreen" class="hidden">
+    <div class="screenHeader"><button class="back" onclick="goHome()">‹</button><div><h2 id="openingTitle"></h2><p id="openingSubtitle"></p></div></div>
+    <div class="trainerPanel">
+      <div class="trainerTop"><div class="lineTag" id="lineTag"></div><div class="scoreBadge" id="sessionScore">0 juste • 0 erreur</div></div>
+      <div class="boardWrap"><div class="board" id="board"></div></div>
+      <div class="instruction"><strong id="turnTitle">À toi de jouer</strong><span id="turnHint"></span></div>
+      <div class="feedback neutral" id="feedback">Joue le coup que tu veux mémoriser.</div>
+      <div class="lesson"><b>🧠 Idée à retenir</b><p id="lessonText"></p></div>
+      <div class="controls"><button class="btn" id="resetBtn" onclick="resetLine()">Recommencer</button><button class="btn primary" id="nextBtn" onclick="nextLine()">Ligne suivante</button></div>
+    </div>
+  </section>
+</div>
+<script>
+const PIECES={wK:'♔︎',wQ:'♕︎',wR:'♖︎',wB:'♗︎',wN:'♘︎',wP:'♙︎',bK:'♚︎',bQ:'♛︎',bR:'♜︎',bB:'♝︎',bN:'♞︎',bP:'♟︎'};
+const initialBoard={a1:'wR',b1:'wN',c1:'wB',d1:'wQ',e1:'wK',f1:'wB',g1:'wN',h1:'wR',a2:'wP',b2:'wP',c2:'wP',d2:'wP',e2:'wP',f2:'wP',g2:'wP',h2:'wP',a8:'bR',b8:'bN',c8:'bB',d8:'bQ',e8:'bK',f8:'bB',g8:'bN',h8:'bR',a7:'bP',b7:'bP',c7:'bP',d7:'bP',e7:'bP',f7:'bP',g7:'bP',h7:'bP'};
+
+const repertoires={
+ london:{title:'Système de Londres',subtitle:'Tu joues les Blancs',orientation:'white',lines:[
+  {name:'Structure classique',lesson:'Développe d’abord le fou en f4, puis e3. L’objectif est une structure solide avant de chercher une attaque.',moves:[['d2','d4','user'],['d7','d5','opp'],['g1','f3','user'],['g8','f6','opp'],['c1','f4','user'],['e7','e6','opp'],['e2','e3','user'],['f8','d6','opp'],['f1','d3','user'],['e8','g8','opp'],['e1','g1','user']]},
+  {name:'Contre …c5',lesson:'Quand les Noirs jouent …c5 tôt, consolide d4 avec c3 et garde une structure compacte avant de choisir Nbd2.',moves:[['d2','d4','user'],['d7','d5','opp'],['g1','f3','user'],['g8','f6','opp'],['c1','f4','user'],['c7','c5','opp'],['e2','e3','user'],['b8','c6','opp'],['c2','c3','user'],['e7','e6','opp'],['b1','d2','user']]},
+  {name:'Développement harmonieux',lesson:'Le plan-type du Londres : d4, Nf3, Bf4, e3, Bd3, O-O, puis Nbd2/c3 selon la position.',moves:[['d2','d4','user'],['g8','f6','opp'],['g1','f3','user'],['e7','e6','opp'],['c1','f4','user'],['d7','d5','opp'],['e2','e3','user'],['f8','e7','opp'],['f1','d3','user'],['e8','g8','opp'],['e1','g1','user'],['c7','c5','opp'],['b1','d2','user']]}
+ ]},
+ caro:{title:'Caro‑Kann',subtitle:'Tu joues les Noirs',orientation:'black',lines:[
+  {name:'Variante d’Avance',lesson:'Après 3.e5, le fou sort en f5 avant …e6. C’est une idée-clé de la Caro‑Kann : développer le fou avant de fermer la chaîne.',moves:[['e2','e4','opp'],['c7','c6','user'],['d2','d4','opp'],['d7','d5','user'],['e4','e5','opp'],['c8','f5','user'],['g1','f3','opp'],['e7','e6','user'],['f1','e2','opp'],['c6','c5','user']]},
+  {name:'Variante classique',lesson:'Sur 3.Nc3, …dxe4 force le cavalier à reprendre. Ensuite …Bf5 développe le fou avec tempo sur la structure.',moves:[['e2','e4','opp'],['c7','c6','user'],['d2','d4','opp'],['d7','d5','user'],['b1','c3','opp'],['d5','e4','user'],['c3','e4','opp'],['c8','f5','user'],['e4','g3','opp'],['f5','g6','user']]},
+  {name:'Variante d’Échange',lesson:'Dans l’Échange, vise un développement simple : …Nf6, …Nc6, puis …Bg4 ou …Bf5 selon la position.',moves:[['e2','e4','opp'],['c7','c6','user'],['d2','d4','opp'],['d7','d5','user'],['e4','d5','opp'],['c6','d5','user'],['g1','f3','opp'],['g8','f6','user'],['f1','d3','opp'],['b8','c6','user']]}
+ ]}
+};
+
+let currentKey='london', lineIndex=0, moveIndex=0, board={}, selected=null, lastMove=[], right=0, wrong=0, lineComplete=false;
+function cloneBoard(){return JSON.parse(JSON.stringify(initialBoard))}
+function squareColor(file,rank){return ((file.charCodeAt(0)-97)+(rank-1))%2===0?'dark':'light'}
+function coordLabel(sq,orientation){const file=sq[0],rank=sq[1];return {file:rank===(orientation==='white'?'1':'8')?file:'',rank:file===(orientation==='white'?'a':'h')?rank:''}}
+function renderBoard(){
+ const el=document.getElementById('board');el.innerHTML=''; const rep=repertoires[currentKey];
+ const files=rep.orientation==='white'?['a','b','c','d','e','f','g','h']:['h','g','f','e','d','c','b','a'];
+ const ranks=rep.orientation==='white'?['8','7','6','5','4','3','2','1']:['1','2','3','4','5','6','7','8'];
+ for(const r of ranks){for(const f of files){const sq=f+r;const b=document.createElement('button');b.className='sq '+squareColor(f,Number(r));b.dataset.sq=sq;if(selected===sq)b.classList.add('selected');if(lastMove.includes(sq))b.classList.add('last');const p=board[sq];if(p)b.innerHTML=`<span class="piece ${p[0]==='w'?'white':'black'}">${PIECES[p]}</span>`;const c=coordLabel(sq,rep.orientation);if(c.file)b.innerHTML+=`<span class="coord file">${c.file}</span>`;if(c.rank)b.innerHTML+=`<span class="coord rank">${c.rank}</span>`;b.onclick=()=>tapSquare(sq);el.appendChild(b)}}
+}
+function expectedMove(){return repertoires[currentKey].lines[lineIndex].moves[moveIndex]}
+function tapSquare(sq){if(lineComplete)return;const exp=expectedMove();if(!exp||exp[2]!=='user')return;
+ if(!selected){if(board[sq]){selected=sq;renderBoard()}return}
+ if(selected===sq){selected=null;renderBoard();return}
+ attemptMove(selected,sq);selected=null;renderBoard();
+}
+function attemptMove(from,to){const exp=expectedMove();if(from===exp[0]&&to===exp[1]){applyMove(from,to);right++;recordAttempt(true);setFeedback('✅ Bon coup. Continue la ligne.','good');moveIndex++;advanceOpponent();}else{wrong++;recordAttempt(false);setFeedback(`❌ Pas ce coup ici. Cherche le plan de l’ouverture plutôt qu’un coup tactique.`,'bad');}
+ updateSessionScore();updateInstruction();}
+function applyMove(from,to){
+ const piece=board[from];board[to]=piece;delete board[from];lastMove=[from,to];
+ if(piece==='wK'&&from==='e1'&&to==='g1'&&board['h1']==='wR'){board['f1']='wR';delete board['h1'];}
+ if(piece==='bK'&&from==='e8'&&to==='g8'&&board['h8']==='bR'){board['f8']='bR';delete board['h8'];}
+}
+function advanceOpponent(){setTimeout(()=>{while(moveIndex<repertoires[currentKey].lines[lineIndex].moves.length&&expectedMove()[2]==='opp'){const m=expectedMove();applyMove(m[0],m[1]);moveIndex++;renderBoard();}if(moveIndex>=repertoires[currentKey].lines[lineIndex].moves.length){finishLine()}updateInstruction();},260)}
+function finishLine(){lineComplete=true;const key=`complete_${currentKey}_${lineIndex}`;localStorage.setItem(key,'1');setFeedback('🏁 Ligne terminée. Rejoue-la jusqu’à ce que les coups deviennent automatiques.','good');document.getElementById('turnTitle').textContent='Ligne terminée';document.getElementById('turnHint').textContent='Excellent. Tu peux recommencer ou passer à la suivante.';refreshStats();}
+function setFeedback(t,type){const el=document.getElementById('feedback');el.className='feedback '+type;el.textContent=t}
+function updateInstruction(){if(lineComplete)return;const exp=expectedMove();if(!exp){finishLine();return}const userSide=currentKey==='london'?'Blancs':'Noirs';document.getElementById('turnTitle').textContent=`À toi • ${userSide}`;document.getElementById('turnHint').textContent='Sélectionne une pièce puis sa case d’arrivée.'}
+function openTrainer(key){currentKey=key;lineIndex=0;document.getElementById('homeScreen').classList.add('hidden');document.getElementById('trainerScreen').classList.remove('hidden');document.getElementById('openingTitle').textContent=repertoires[key].title;document.getElementById('openingSubtitle').textContent=repertoires[key].subtitle;loadLine()}
+function loadLine(){board=cloneBoard();moveIndex=0;selected=null;lastMove=[];lineComplete=false;document.getElementById('lineTag').textContent=`Ligne ${lineIndex+1}/${repertoires[currentKey].lines.length} • ${repertoires[currentKey].lines[lineIndex].name}`;document.getElementById('lessonText').textContent=repertoires[currentKey].lines[lineIndex].lesson;setFeedback('Joue le coup que tu veux mémoriser.','neutral');renderBoard();if(expectedMove()[2]==='opp')advanceOpponent();else updateInstruction();}
+function resetLine(){loadLine()}
+function nextLine(){lineIndex=(lineIndex+1)%repertoires[currentKey].lines.length;loadLine()}
+function goHome(){document.getElementById('trainerScreen').classList.add('hidden');document.getElementById('homeScreen').classList.remove('hidden');refreshStats()}
+function updateSessionScore(){document.getElementById('sessionScore').textContent=`${right} juste • ${wrong} erreur${wrong>1?'s':''}`}
+function recordAttempt(ok){const d=new Date().toISOString().slice(0,10);const stats=JSON.parse(localStorage.getItem('openinglab_stats')||'{}');stats[d]=stats[d]||{right:0,wrong:0};stats[d][ok?'right':'wrong']++;localStorage.setItem('openinglab_stats',JSON.stringify(stats));localStorage.setItem('openinglab_last',d)}
+function completionFor(key){let n=0;repertoires[key].lines.forEach((_,i)=>{if(localStorage.getItem(`complete_${key}_${i}`))n++});return Math.round(n/repertoires[key].lines.length*100)}
+function refreshStats(){const stats=JSON.parse(localStorage.getItem('openinglab_stats')||'{}');const d=new Date().toISOString().slice(0,10);const s=stats[d]||{right:0,wrong:0};const total=s.right+s.wrong;document.getElementById('todayCount').textContent=total;document.getElementById('accuracy').textContent=total?Math.round(s.right/total*100)+'%':'—';const lp=completionFor('london'),cp=completionFor('caro');document.getElementById('londonProgress').style.width=lp+'%';document.getElementById('caroProgress').style.width=cp+'%';document.getElementById('mastery').textContent=Math.round((lp+cp)/2)+'%';
+ const dates=Object.keys(stats).sort().reverse();let streak=0;let cur=new Date();for(let i=0;i<365;i++){const k=cur.toISOString().slice(0,10);if(stats[k]&&(stats[k].right+stats[k].wrong)>0){streak++}else if(i===0){}else break;cur.setDate(cur.getDate()-1)}document.getElementById('streakPill').textContent=`🔥 ${streak} jour${streak>1?'s':''}`}
+refreshStats();updateSessionScore();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+</script>
+</body>
+</html>
